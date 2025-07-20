@@ -2,9 +2,8 @@ FROM ghcr.io/puppeteer/puppeteer:19.7.0
 
 WORKDIR /usr/src/app
 
-# Create a non-root user and set permissions
-RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
-    && mkdir -p /home/pptruser/Downloads \
+# Set permissions for the existing pptruser
+RUN mkdir -p /home/pptruser/Downloads \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /usr/src/app
 
