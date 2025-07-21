@@ -19,6 +19,7 @@ const SMS_URL = 'https://www.ivasms.com/portal/live/my_sms';
 const db = new sqlite3.Database('./db.sqlite');
 db.run(`CREATE TABLE IF NOT EXISTS otps (otp TEXT, number TEXT, UNIQUE(otp, number))`);
 
+
 async function sendTelegram({ number, service, otp, message, time }) {
   const text = [
     '🚀⚡ OTP Received ✨🔥',
@@ -37,11 +38,11 @@ async function sendTelegram({ number, service, otp, message, time }) {
   const reply_markup = {
     inline_keyboard: [
       [
-        { text: '� Copy OTP', callback_data: `copy_otp_${otp}` }
+        { text: '💻 Contact Owner', url: 'tg://resolve?domain=me' },
+        { text: '📢 Join Main Channel', url: 'https://t.me/DXZWorkzone' }
       ],
       [
-        { text: '�💻 Contact Owner', url: 'tg://resolve?domain=me' },
-        { text: '📢 Join Main Channel', url: 'https://t.me/DXZWorkzone' }
+        { text: '📋 Copy OTP', url: `tg://copy?text=${otp}` }
       ]
     ]
   };
@@ -81,7 +82,7 @@ async function login(page) {
 }
 
 
-// Create HTTP server for keep-alive and callback handling
+// Create HTTP server for keep-alive and webhook
 const server = http.createServer(async (req, res) => {
   if (req.method === 'POST') {
     let body = '';
@@ -269,54 +270,5 @@ Message: ${message}
     console.error('Fatal error:', err);
   }
 }
-
-// Handle button callbacks
-async function handleCallback(callback_query) {
-  const { data, message } = callback_query;
-  if (data.startsWith('copy_otp_')) {
-    const otp = data.replace('copy_otp_', '');
-    try {
-      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          callback_query_id: callback_query.id,
-          text: `OTP ${otp} copied to clipboard! 📋`,
-          show_alert: true
-        })
-      });
-    } catch (error) {
-      console.error('Error handling callback:', error);
-    }
-  }
-}
-
-// Set up webhook for button callbacks
-const server = http.createServer(async (req, res) => {
-  if (req.method === 'POST') {
-    let body = '';
-    req.on('data', chunk => {
-      body += chunk.toString();
-    });
-    req.on('end', async () => {
-      try {
-        const update = JSON.parse(body);
-        if (update.callback_query) {
-          await handleCallback(update.callback_query);
-        }
-      } catch (error) {
-        console.error('Error processing webhook:', error);
-      }
-      res.end('OK');
-    });
-  } else {
-    res.end('OK');
-  }
-});
-
-server.listen(3001, () => {
-  console.log('Server is running on port 3001');
-});
-```
 
 monitor();
