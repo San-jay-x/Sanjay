@@ -26,7 +26,7 @@ async function sendTelegram({ number, service, otp, message, time }) {
     `»⟩⟩ ⏰ Time: ${time}`,
     `»⟩⟩ ☎ Number: ${number}`,
     `»⟩⟩ ⚙ Service: ${service}`,
-    `»⟩⟩ 🔥 OTP Code: ${otp}`,
+    `»⟩⟩ 🔥 OTP Code: *${otp}*`,
     `»⟩⟩ 📱 Message:`,
     message,
     '',
@@ -36,8 +36,8 @@ async function sendTelegram({ number, service, otp, message, time }) {
   const reply_markup = {
     inline_keyboard: [
       [
-        { text: '�‍💻 Contact Owner', url: 'https://t.me/unlimitedxr' },
-        { text: '� Join Main Channel', url: 'https://t.me/DXZWorkzone' }
+        { text: '💻 Contact Owner', url: 'tg://resolve?domain=me' },
+        { text: '📢 Join Main Channel', url: 'https://t.me/DXZWorkzone' }
       ]
     ]
   };
@@ -58,10 +58,9 @@ async function sendTelegram({ number, service, otp, message, time }) {
       console.error('Telegram API error:', data);
     } else {
       console.log('Telegram message sent:', data.result.message_id);
-      console.log(`✅ Successfully sent OTP: ${otp} for number: ${number} (Service: ${service})`);
     }
-  } catch (err) {
-    console.error('Telegram fetch error:', err);
+  } catch (error) {
+    console.error('Error sending Telegram message:', error);
   }
 }
 
