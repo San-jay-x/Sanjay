@@ -26,7 +26,8 @@ async function sendTelegram({ number, service, otp, message, time }) {
     `»⟩⟩ ⏰ Time: ${time}`,
     `»⟩⟩ ☎ Number: ${number}`,
     `»⟩⟩ ⚙ Service: ${service}`,
-    `»⟩⟩ 🔥 OTP Code: *${otp}*`,
+    `»⟩⟩ 🔥 OTP Code:`,
+    `\`\`\`${otp}\`\`\``,  // Using code block for easy one-click copy
     `»⟩⟩ 📱 Message:`,
     message,
     '',
@@ -38,9 +39,6 @@ async function sendTelegram({ number, service, otp, message, time }) {
       [
         { text: '💻 Contact Owner', url: 'tg://resolve?domain=me' },
         { text: '📢 Join Main Channel', url: 'https://t.me/DXZWorkzone' }
-      ],
-      [
-        { text: ' ', callback_data: `copy_${otp}` } // Hidden button for copy functionality
       ]
     ]
   };
