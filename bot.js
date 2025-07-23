@@ -24,13 +24,13 @@ async function sendTelegram({ number, service, otp, message, time }) {
   const text = [
     '🚀⚡ OTP Received ✨🔥',
     '',
-    `»⟩⟩ ⏰ Time: ${time}`,
-    `»⟩⟩ ☎ Number: ${number}`,
-    `»⟩⟩ ⚙ Service: ${service}`,
-    `»⟩⟩ 🔥 OTP Code:`,
-    `\`\`\`${otp}\`\`\``,  // Using code block for easy one-click copy
-    `»⟩⟩ 📱 Message:`,
-    message,
+    '`⏰ Time: ${time}`',
+    '`☎ Number: ${number}`',
+    '`⚙ Service: ${service}`',
+    '🔑 OTP Code: ` ${otp} `',
+    '',
+    '📱 Message:',
+    `> ${message}`,
     '',
     '⚙ —⟩⟩ 𝙋𝙤𝙬𝙚𝙧𝙚𝙙 𝘽𝙮 ⚡️ 𝘿𝙚𝙫 ⚡️🌏'
   ].join('\n');
@@ -40,9 +40,6 @@ async function sendTelegram({ number, service, otp, message, time }) {
       [
         { text: '💻 Contact Owner', url: 'tg://resolve?domain=me' },
         { text: '📢 Join Main Channel', url: 'https://t.me/DXZWorkzone' }
-      ],
-      [
-        { text: '📋 Copy OTP', url: `tg://copy?text=${otp}` }
       ]
     ]
   };
@@ -67,6 +64,9 @@ async function sendTelegram({ number, service, otp, message, time }) {
   } catch (error) {
     console.error('Error sending Telegram message:', error);
   }
+
+  // Log extracted data to console
+  console.log(`Time: ${time}\nNumber: ${number}\nService: ${service}\nOTP: ${otp}\nMessage: ${message}`);
 }
 
 async function login(page) {
